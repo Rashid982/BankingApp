@@ -1,0 +1,49 @@
+﻿@page "/editcustomer/{id}"
+@inherits EditCustomerBase
+
+<h3>Edit Customer</h3>
+
+<EditForm Model="@Customer">
+    <hr />    
+    <h5>@Customer.Name @Customer.Surname</h5>
+    <br />
+    
+    <div class="form-check row">
+        <label for="topup" class="col-sm-2 col-form-label">
+            Top-up            
+        </label>
+        <div class="col-sm-10">
+            <InputNumber id="topup" class="form-control" placeholder="Top-up"
+                         @bind-Value="Amount" />
+            <br />
+            <button class="btn btn-primary" @onclick="TopupBalance">Top-up</button>
+        </div>
+    </div>
+
+    <div class="form-check row">
+        <label for="purchase" class="col-sm-2 col-form-label">
+            Purchase
+        </label>
+        <div class="col-sm-10">
+            <InputNumber id="purchase" class="form-control" placeholder="Purchase"
+                         @bind-Value="Amount" />
+            <br />
+            <button class="btn btn-primary" @onclick="PurchaseBalance">Purchase</button>
+        </div>
+    </div>
+
+    <div class="form-check row">
+        <label for="refund" class="col-sm-2 col-form-label">
+            Refund
+        </label>
+        <div class="col-sm-10">
+            <InputNumber id="refund" class="form-control" placeholder="Refund"
+                         @bind-Value="Amount" />
+            <br />
+            <button class="btn btn-primary" @onclick="RefundBalance">Refund</button>
+        </div>
+    </div>
+    <br />
+    
+</EditForm>
+

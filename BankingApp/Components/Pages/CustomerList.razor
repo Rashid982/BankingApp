@@ -1,0 +1,50 @@
+﻿@page "/"
+@inherits CustomerListBase
+
+<h3>Welcome to Banking App !</h3>
+<br/>
+<h4>Customers </h4>
+
+@if(Customers == null)
+{
+    <div class="spinner"></div>
+}
+else
+{    
+    <div class="card-group">
+        @foreach (var customer in Customers)
+        {
+            <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
+
+                <div class="card-header">
+                    <h5>                        
+                        @customer.Name @customer.Surname
+                    </h5>
+                </div>
+                <div class="card-header">
+                    <h6>
+                        Birthday: @customer.BirthDate.Date.Day.@customer.BirthDate.Date.Month.@customer.BirthDate.Date.Year
+                    </h6>
+                </div>
+                <div class="card-header">
+                    <h6>
+                        Phone number: @customer.PhoneNumber  
+                    </h6>
+                </div>
+                <div class="card-header">
+                    <h6>
+                        Balance: @customer.Balance  AZN  
+                    </h6>
+                </div>
+                <div class="card-footer text-center">                
+                
+                    <a href="@($"editcustomer/{customer.Id}")" class="btn btn-primary m-1">Edit</a>
+
+                    <button @onclick="(()=> DeleteCustomer(customer.Id))" class="btn btn-danger">Delete</button>
+
+                </div>
+                
+            </div>
+        }
+    </div>
+}
