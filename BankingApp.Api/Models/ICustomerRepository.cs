@@ -1,4 +1,4 @@
-﻿using BankingApp.Models;
+﻿using BankingApp.Domain;
 
 namespace BankingApp.Api.Models
 {
@@ -8,8 +8,7 @@ namespace BankingApp.Api.Models
         Task<Customer> GetCustomerById(int id);
         Task<Customer> AddCustomer(Customer customer);
         Task<Customer> DeleteCustomer(int id);
-        Task<Customer> TopUp(int id, decimal amount);
-        Task<Customer> Purchase(int id, decimal amount);
-        Task<Customer> Refund(int id, decimal amount);
+        Task<Customer> UpdateCostumer(Customer customer);
+        
     }
 }

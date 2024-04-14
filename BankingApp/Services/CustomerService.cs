@@ -1,4 +1,4 @@
-﻿using BankingApp.Models;
+﻿using BankingApp.Domain;
 
 namespace BankingApp.Services
 {
@@ -33,17 +33,17 @@ namespace BankingApp.Services
 
         public async Task<HttpResponseMessage> Purchase(int id, decimal amount)
         {
-            return await httpClient.PutAsJsonAsync($"api/Customers/purchase/{id}/{amount}",amount);
+            return await httpClient.PatchAsJsonAsync($"api/Payments/purchase/purchase?id={id}&amount={amount}",amount);
         }
 
         public async Task<HttpResponseMessage> Refund(int id, decimal amount)
         {
-            return await httpClient.PutAsJsonAsync($"api/Customers/refund/{id}/{amount}", amount);
+            return await httpClient.PatchAsJsonAsync($"api/Payments/refund/refund?id={id}&amount={amount}", amount);
         }
 
         public async Task<HttpResponseMessage> TopUpCustomerBalance(int id, decimal amount)
         {
-            return await httpClient.PutAsJsonAsync($"api/Customers/topup/{id}/{amount}", amount);
+            return await httpClient.PatchAsJsonAsync($"api/Payments/topup/topup?id={id}&amount={amount}", amount);
         }
     }
 }

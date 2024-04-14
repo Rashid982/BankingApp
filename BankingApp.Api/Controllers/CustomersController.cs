@@ -1,5 +1,5 @@
 ﻿using BankingApp.Api.Models;
-using BankingApp.Models;
+using BankingApp.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingApp.Api.Controllers
@@ -49,7 +49,7 @@ namespace BankingApp.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Customer>> AddCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> AddCustomer(Customer customer) 
         {
             try
             {
@@ -77,10 +77,10 @@ namespace BankingApp.Api.Controllers
                 
                 if(result == null)
                 {
-                    return NotFound($"Customer not found in this {id}");
+                    return NotFound($"Customer not found in this Id - {id}");
                 }
 
-                return Ok(await customerRepository.DeleteCustomer(id));
+                return Ok(await customerRepository.DeleteCustomer(id)); 
 
             }
             catch (Exception)
@@ -89,79 +89,31 @@ namespace BankingApp.Api.Controllers
             }
         }
 
-        [HttpPut("topup/{id:int}/{amount:decimal}")]
-        public async Task<ActionResult<Customer>> TopUpCustomerBalance(int id, decimal amount)
+        [HttpPut]
+        public async Task<ActionResult<Customer>> UpdateCostumer(Customer customer)
         {
             try
             {
-                var result = await customerRepository.GetCustomerById(id);
+                var result = await customerRepository.GetCustomerById(customer.Id);
 
-                if (result == null)
+                if(result == null)
                 {
-                    return NotFound($"Customer with Id = {result.Id} not found !");
+                    return NotFound($"Customer not found in this Id - {customer.Id}");
                 }
 
-                result = await customerRepository.TopUp(id, amount);
-                return Ok(result);
+                return await customerRepository.UpdateCostumer(customer);
 
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error updating data !!!");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error updating data !");
             }
         }
 
-        [HttpPut("refund/{id:int}/{amount:decimal}")]
-        public async Task<ActionResult<Customer>> RefundCustomerBalance(int id, decimal amount)
-        {
-            try
-            {
-                var customer = await customerRepository.GetCustomerById(id);
 
-                if (customer == null)
-                {
-                    return NotFound($"Customer with Id = {customer.Id} not found !");
-                }
 
-                if (customer.Balance < amount)
-                {
-                    return BadRequest("Insufficient balance");
-                }
 
-                customer = await customerRepository.Refund(id, amount);
-                return Ok(customer);
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error updating data !!!");
-            }
-        }
-
-        [HttpPut("purchase/{id:int}/{amount:decimal}")]
-        public async Task<ActionResult<Customer>> PurchaseCustomerBalance(int id, decimal amount)
-        {
-            try
-            {
-                var customer = await customerRepository.GetCustomerById(id);
-
-                if (customer == null)
-                {
-                    return NotFound($"Customer with Id = {customer.Id} not found !");
-                }
-
-                if (customer.Balance < amount)
-                {
-                    return BadRequest("Insufficient balance");
-                }
-
-                customer = await customerRepository.Purchase(id, amount);
-                return Ok(customer);
-            }
-            catch (Exception)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error updating data !!!");
-            }
-        }
+       
 
     }
 }

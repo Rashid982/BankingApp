@@ -1,7 +1,7 @@
-﻿using BankingApp.Models;
+﻿using BankingApp.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace BankingApp.Api.Models
+namespace BankingApp.Domain.Database
 {
     public class AppDbContext : DbContext
     {

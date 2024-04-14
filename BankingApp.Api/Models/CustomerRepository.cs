@@ -1,4 +1,5 @@
-﻿using BankingApp.Models;
+﻿using BankingApp.Domain;
+using BankingApp.Domain.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankingApp.Api.Models
@@ -43,50 +44,21 @@ namespace BankingApp.Api.Models
             return await appDbContext.Customers.ToListAsync();
         }
 
-        public async Task<Customer> Purchase(int id, decimal amount)
+        public async Task<Customer> UpdateCostumer(Customer customer)
         {
-            var customer = appDbContext.Customers.FirstOrDefault(x => x.Id == id);
+            var _customer = appDbContext.Customers.FirstOrDefault(x => x.Id == customer.Id);
 
-            if (customer != null)
+            if (_customer != null)
             {
-                if (customer.Balance >= amount)
-                {
-                    customer.Balance -= amount;
-                    await appDbContext.SaveChangesAsync();
-                    return customer;
-                }
-            }
+                _customer.Name = customer.Name;
+                _customer.Surname = customer.Surname;
+                _customer.BirthDate = customer.BirthDate;
+                _customer.PhoneNumber = customer.PhoneNumber;
+                _customer.Balance = customer.Balance;
 
-            return null;
-        }
+                await appDbContext.SaveChangesAsync(); 
 
-        public async Task<Customer> Refund(int id, decimal amount)
-        {
-            var customer = appDbContext.Customers.FirstOrDefault(x => x.Id == id);
-
-            if(customer != null)
-            {
-                if(customer.Balance >= amount)
-                {
-                    customer.Balance -= amount;
-                    await appDbContext.SaveChangesAsync();
-                    return customer;
-                }
-                
-            }
-
-            return null;
-        }
-
-        public async Task<Customer> TopUp(int id, decimal amount)
-        {
-            var customer = appDbContext.Customers.FirstOrDefault(x => x.Id == id);
-
-            if (customer != null)
-            {
-                customer.Balance += amount;
-                await appDbContext.SaveChangesAsync();
-                return customer;
+                return _customer;
             }
 
             return null;

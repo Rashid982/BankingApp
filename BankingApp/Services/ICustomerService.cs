@@ -1,4 +1,4 @@
-﻿using BankingApp.Models;
+﻿using BankingApp.Domain;
 
 namespace BankingApp.Services
 {
